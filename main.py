@@ -63,7 +63,14 @@ def go(config: DictConfig):
             ##################
             # Implement here #
             ##################
-            pass
+            _ = mlflow.run(
+                str(cwd_path / "src" / "data_check"),
+                parameters={
+                    **config["data_check"],
+                    "min_price": config["cleaning"]["min_price"],
+                    "max_price": config["cleaning"]["max_price"],
+                },
+            )
 
         if "data_split" in active_steps:
             ##################
