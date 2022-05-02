@@ -1,8 +1,9 @@
 import json
-
-import mlflow
 import tempfile
 import os
+from pathlib import Path
+
+import mlflow
 import wandb
 import hydra
 from omegaconf import DictConfig
@@ -31,6 +32,8 @@ def go(config: DictConfig):
     # Steps to execute
     steps_par = config['main']['steps']
     active_steps = steps_par.split(",") if steps_par != "all" else _steps
+    
+    cwd_path = Path(hydra.utils.get_original_cwd())
 
     # Move to a temporary directory
     with tempfile.TemporaryDirectory() as tmp_dir:
@@ -49,10 +52,12 @@ def go(config: DictConfig):
             )
 
         if "basic_cleaning" in active_steps:
-            ##################
-            # Implement here #
-            ##################
-            pass
+            _ = mlflow.run(
+                str(cwd_path / "src" / "basic_cleaning"),
+                parameters={
+                    **config["cleaning"]
+                },
+            )
 
         if "data_check" in active_steps:
             ##################
