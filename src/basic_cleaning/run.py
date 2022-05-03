@@ -31,6 +31,9 @@ def filter_column_bounds(df : pd.DataFrame, col : str, min_val, max_val):
     ---------------
     pd.DataFrame
         Filtered dataframe
+
+    int
+        Number of rows filtered out
     """    
     mask = df.loc[:,col].between(min_val, max_val)
 
@@ -123,42 +126,42 @@ if __name__ == "__main__":
     parser.add_argument(
         "--min_price", 
         type=float,
-        help="Minimum price of records to kept in dataset",
+        help="Minimum value for price column to be kept in dataset",
         required=True
     )
 
     parser.add_argument(
         "--max_price", 
         type=float,
-        help="Minimum price of records to kept in dataset",
+        help="Minimum value for price column to be kept in dataset",
         required=True
     )
 
     parser.add_argument(
         "--min_longitude", 
         type=float,
-        help="Minimum longitude of records to kept in dataset",
+        help="Minimum value for longitude column to be kept in dataset",
         required=True
     )
 
     parser.add_argument(
         "--max_longitude", 
         type=float,
-        help="Minimum longitude of records to kept in dataset",
+        help="Maximum value for longitude column to be kept in dataset",
         required=True
     )
 
     parser.add_argument(
         "--min_latitude", 
         type=float,
-        help="Minimum latitude of records to kept in dataset",
+        help="Minimum value for latitude to be kept in dataset",
         required=True
     )
 
     parser.add_argument(
         "--max_latitude", 
         type=float,
-        help="Minimum latitude of records to kept in dataset",
+        help="Maximum value for latitude to be kept in dataset",
         required=True
     )
 
