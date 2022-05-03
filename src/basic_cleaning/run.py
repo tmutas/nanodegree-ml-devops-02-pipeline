@@ -34,7 +34,7 @@ def filter_column_bounds(df : pd.DataFrame, col : str, min_val, max_val):
     """    
     mask = df.loc[:,col].between(min_val, max_val)
 
-    return df[mask].copy()
+    return df[mask].copy(), len(df) - mask.sum()
 
 def go(args):
 
@@ -48,16 +48,32 @@ def go(args):
     df = pd.read_csv(artifact_local_path)
     logger.info("Downloaded input dataframe of shape %s", df.shape)
 
-    df_filtered = filter_column_bounds(df, "price", args.min_price, args.max_price)
+    df, dropped = filter_column_bounds(df, "price", args.min_price, args.max_price)
     logger.info(
-        "Filtered out %s rows outside of %s and %s", 
-        len(df) - len(df_filtered),
+        "Filtered out %s rows outside of price %s and %s", 
+        dropped,
         args.min_price,
         args.max_price,
     )
+
+    df, dropped  = filter_column_bounds(df, "longitude", args.min_longitude, args.max_longitude)
+    logger.info(
+        "Filtered out %s rows outside of longitude %s and %s", 
+        dropped,
+        args.min_longitude,
+        args.max_longitude,
+    )
+
+    df, dropped  = filter_column_bounds(df, "latitude", args.min_latitude, args.max_latitude)
+    logger.info(
+        "Filtered out %s rows outside of latitude %s and %s", 
+        dropped,
+        args.min_latitude,
+        args.max_latitude,
+    )
     
     with NamedTemporaryFile() as fil:
-        df_filtered.to_csv(fil.name, index=False)
+        df.to_csv(fil.name, index=False)
         artifact = wandb.Artifact(
             args.output_artifact,
             type=args.output_type,
@@ -115,6 +131,34 @@ if __name__ == "__main__":
         "--max_price", 
         type=float,
         help="Minimum price of records to kept in dataset",
+        required=True
+    )
+
+    parser.add_argument(
+        "--min_longitude", 
+        type=float,
+        help="Minimum longitude of records to kept in dataset",
+        required=True
+    )
+
+    parser.add_argument(
+        "--max_longitude", 
+        type=float,
+        help="Minimum longitude of records to kept in dataset",
+        required=True
+    )
+
+    parser.add_argument(
+        "--min_latitude", 
+        type=float,
+        help="Minimum latitude of records to kept in dataset",
+        required=True
+    )
+
+    parser.add_argument(
+        "--max_latitude", 
+        type=float,
+        help="Minimum latitude of records to kept in dataset",
         required=True
     )
 
