@@ -1,3 +1,7 @@
+# Project Information
+This repository https://github.com/tmutas/nanodegree-ml-devops-02-pipeline.git contains the work done for the second project as part of the Udacity Machine Leaning DevOps Nanodegree.
+The W&B project used for this project can be found under https://wandb.ai/tmutas-team/nyc_airbnb. It tracked the runs and artifacts created in the course of completing the project, as per the instructions below.
+ 
 # Build an ML Pipeline for Short-Term Rental Prices in NYC
 You are working for a property management company renting rooms and properties for short periods of 
 time on various rental platforms. You need to estimate the typical price for a given property based 
