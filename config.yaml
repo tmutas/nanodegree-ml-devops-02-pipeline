@@ -45,3 +45,6 @@ modeling:
     max_features: 0.5
     # DO not change the following
     oob_score: true
+testing:
+  mlflow_model: "rf_model:prod"
+  test_dataset: test_data.csv:latest
