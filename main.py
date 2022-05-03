@@ -100,7 +100,18 @@ def go(config: DictConfig):
             # Implement here #
             ##################
 
-            pass
+            _ = mlflow.run(
+                str(cwd_path / "src" / "train_random_forest"),
+                parameters={
+                    "trainval_artifact" : config["modeling"]["trainval_artifact"],
+                    "val_size" : config["modeling"]["val_size"],
+                    "random_seed" : config["modeling"]["random_seed"],
+                    "stratify_by" : config["modeling"]["stratify_by"],
+                    "rf_config" : rf_config,
+                    "max_tfidf_features" : config["modeling"]["max_tfidf_features"],
+                    "output_artifact" : config["modeling"]["output_artifact"],
+                },
+            )
 
         if "test_regression_model" in active_steps:
 
